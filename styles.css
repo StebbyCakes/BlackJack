@@ -5,16 +5,101 @@
 body {
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(3, 4rem);
-    grid-template-rows: 3rem 7rem 3rem;
+    grid-template-columns: 5rem 3rem 5rem;
+    grid-template-rows: 12rem 5rem 12rem;
     gap: .5rem;
     justify-content: center;
     padding-top: 1rem;
+    background-color: green;
 }
+
+
 
 .hand {
     height: 100%;
     width: 100%;
-    border: 1px solid black;
+    border: 3px solid black;
     grid-column: span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    border-radius: .5rem;
+    color: black;
+    background-color: white;
+    user-select: none;
+}
+
+.hand-value {
+    heigh: 100%;
+    width: 100%;
+    border: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5rem;
+    color: white;
+    user-select: none;
+}
+
+.button {
+    height: 100%;
+    width: 100%;
+    border: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+}
+
+.count { 
+    height: 100%;
+    width: 100%;
+    border: 3px solid black;
+    grid-row: span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    user-select: none;
+}
+
+.card {
+    position: relative;
+    height: 100px;
+    width: 100px;
+    border: solid black 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5rem;
+    font-size: 4rem;
+
+}
+
+.card.red {
+    color: red;
+}
+
+.card.black {
+    color: black;
+}
+
+.card::before,
+.card::after {
+    position: absolute;
+    content: attr(data-value);
+    font-size: 1rem;
+}
+
+.card::before {
+    top: .5rem;
+    left: .5rem;
+}
+
+.card::after {
+    bottom: .5rem;
+    right: .5rem;
+    transform: rotate(180deg);
 }
