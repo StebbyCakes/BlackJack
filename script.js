@@ -2,37 +2,52 @@ import Deck from './deck.js'
 
 const dealerHandValue = document.querySelector('.dealer-hand-value')
 const playerHandValue = document.querySelector('.player-hand-value')
-const hit = document.querySelector('.hit')
-const stand = document.querySelector('.stand')
 const dealerHand = document.querySelector('.dealer-hand')
 const playerHand = document.querySelector('.player-hand')
 const count = document.querySelector('.count')
-const theDeck = new Deck()
 
-let inRound
+document.addEventListener('click', () => {
+    if(inRound) {
+        newRound()
+    } else {
+        fullHand()
+    }
+})
 
-initialHand()
-function initialHand() {
-    inRound = true
-    const playerCard = theDeck.pop()
-    const computerCard = theDeck.pop()
-
-    playerHand.appendChild(playerCard.getHTML())
-
-}
+let inRound, theDeck
 
 startGame()
 function startGame() {
-    const deck = new Deck()
-    deck.shuffle()
+    theDeck = new Deck()
+    theDeck.shuffle()
+    console.log(theDeck)
+
     inRound = false
 
     newRound()
+}
+
+fullHand()
+function fullHand() {
+    inRound = true
+    console.log(theDeck)
+    const playerCard = theDeck.pop()
+    const computerCard = theDeck.pop()
+    playerHand.appendChild(playerCard.getHTML())
+    dealerHand.appendChild(computerCard.getHTML())
+
 }
 
 function newRound(){
     inRound = false
     dealerHand.innerHTML = ''
     playerHand.innerHTML = ''
-    count.innerHTML = ''
+    count.innerText = ''
+
+    updateDeck()
+
+}
+
+function updateDeck() {
+    theDeck.innerHTML = theDeck.numberOfCards
 }
