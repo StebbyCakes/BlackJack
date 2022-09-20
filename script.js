@@ -6,7 +6,7 @@ const dealerHand = document.querySelector('.dealer-hand')
 const playerHand = document.querySelector('.player-hand')
 const count = document.querySelector('.count')
 
-document.addEventListener('click', () => {
+document.getElementById("hitBtn").addEventListener('click', () => {
     if(inRound) {
         newRound()
     } else {
