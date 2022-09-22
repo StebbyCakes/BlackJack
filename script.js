@@ -10,10 +10,10 @@ const CARD_VALUE_MAP = {
     "8" : 8,
     "9" : 9,
     "10" : 10,
-    "J" : 11,
-    "Q" : 12,
-    "K" : 13,
-    "A" : 14,
+    "J" : 10,
+    "Q" : 10,
+    "K" : 10,
+    "A" : 2,
 }
 
 const dealerHandValue = document.querySelector('.dealer-hand-value')
@@ -28,7 +28,6 @@ document.getElementById("hitBtn").addEventListener('click', () => {
         return
     }
 
-
     if(inRound) {
         newRound()
     } else {
@@ -42,8 +41,6 @@ startGame()
 function startGame() {
     theDeck = new Deck()
     theDeck.shuffle()
-    console.log(theDeck)
-
     inRound = false
     stop = false
 
@@ -61,23 +58,35 @@ function newRound(){
 fullHand()
 function fullHand() {
     inRound = true
-    console.log(theDeck)
-    const playerCard = theDeck.pop()
-    const dealerCard = theDeck.pop()
-    playerHand.appendChild(playerCard.getHTML())
-    dealerHand.appendChild(dealerCard.getHTML())
-    // console.log(playerHand)
+    const firstPlayerCard = theDeck.pop()
+    const firstDealerCard = theDeck.pop()
+    const secondPlayerCard = theDeck.pop()
+    const secondDealerCard = theDeck.pop()
 
-    // const playerValue = playerHand.CARD_VALUE_MAP
-    // console.log(playerValue)
+
+    
+    const playerCards = [firstPlayerCard, secondPlayerCard]
+    const dealerCards = [firstDealerCard, secondDealerCard]
+
+    const playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
+    const dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
+     
+
+    // console.log(playerCards[0].value)
+    // console.log(playerCards)
+    
+ 
+    playerHand.appendChild(playerCards.drawOne())
+    dealerHand.appendChild(dealerCards.drawOne())
+
+    // try to appendChild to each card then put them into the hand afterwards. Maybe dont need the firstHand Function this way?
 
     updateDeck()
 
-    if (isRoundWinner(playerCard, dealerCard)) {
+    if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
         alert("Win")
-        let playerHandValue = CARD_VALUE_MAP[playerCard.value]
-        console.log(playerHandValue)
-    } else if (isRoundWinner(dealerCard, playerCard)){
+        
+    } else if (isRoundWinner(dealerCardsValue, playerCardsValue)){
         alert("Lose")
     } else {
         alert("Draw")
@@ -96,7 +105,7 @@ function updateDeck() {
 }
 
 function isRoundWinner(cardOne, cardTwo) {
-    return CARD_VALUE_MAP[cardOne.value] > CARD_VALUE_MAP[cardTwo.value]
+    return playerCardsValue > dealerCardsValue
 }
 
 function isGameOver(deck) {

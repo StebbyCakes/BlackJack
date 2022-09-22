@@ -52,13 +52,27 @@ class Card {
         return this.suit === "♠" || this.suit === "♣" ? 'black' : 'red'
     }
 
-   getHTML() {
+    firstHand() {
+        const firstCard = document.createElement('div')
+        const secondCard = document.createElement('div')
+        firstCard.innerText = this.suit
+        secondCard = this.suit
+        firstCard.classList.add("card", this.color)
+        secondCard.classList.add("card", this.color)
+        firstCard.dataset.value = `${this.value} ${this.suit}`
+        secondCard.dataset.value = `${this.value} ${this.suit}`
+        return firstCard, secondCard
+    }
+
+
+   drawOne() {
         const cardDiv = document.createElement('div')
         cardDiv.innerText = this.suit
         cardDiv.classList.add("card", this.color)
         cardDiv.dataset.value = `${this.value} ${this.suit}`
         return cardDiv
     }
+
 }
 
 function freshDeck() {
