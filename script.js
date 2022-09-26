@@ -70,14 +70,20 @@ function fullHand() {
 
     const playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
     const dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
+    console.log(playerCardsValue)
+    console.log(dealerCardsValue)
      
 
     // console.log(playerCards[0].value)
     // console.log(playerCards)
+
+
     
  
-    playerHand.appendChild(playerCards.drawOne())
-    dealerHand.appendChild(dealerCards.drawOne())
+    playerHand.appendChild(firstPlayerCard.drawOne())
+    playerHand.appendChild(secondPlayerCard.drawOne())
+    dealerHand.appendChild(firstDealerCard.drawOne())
+    dealerHand.appendChild(secondDealerCard.drawOne())
 
     // try to appendChild to each card then put them into the hand afterwards. Maybe dont need the firstHand Function this way?
 
@@ -104,7 +110,7 @@ function updateDeck() {
     theDeck.innerHTML = theDeck.numberOfCards
 }
 
-function isRoundWinner(cardOne, cardTwo) {
+function isRoundWinner(playerCardsValue, dealerCardsValue) {
     return playerCardsValue > dealerCardsValue
 }
 
