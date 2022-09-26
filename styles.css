@@ -13,6 +13,16 @@ body {
     background-color: green;
 }
 
+.start-game {
+    position: absolute;
+    border: 3px solid black;
+    background-color: white;
+    border-radius: 50%;
+    text-align: center;
+    height: 30px;
+    width: 100px;   
+}
+
 
 
 .hand {
@@ -50,7 +60,7 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    color: white;
+    color: black;
 }
 
 .count { 

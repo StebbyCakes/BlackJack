@@ -16,13 +16,13 @@ const CARD_VALUE_MAP = {
     "A" : 2,
 }
 
-const dealerHandValue = document.querySelector('.dealer-hand-value')
-const playerHandValue = document.querySelector('.player-hand-value')
+let dealerHandValue = document.querySelector('.dealer-hand-value')
+let playerHandValue = document.querySelector('.player-hand-value')
 const dealerHand = document.querySelector('.dealer-hand')
 const playerHand = document.querySelector('.player-hand')
 const count = document.querySelector('.count')
 
-document.getElementById("hitBtn").addEventListener('click', () => {
+document.getElementById("startBtn").addEventListener('click', () => {
     if (stop) {
         startGame()
         return
@@ -62,30 +62,19 @@ function fullHand() {
     const firstDealerCard = theDeck.pop()
     const secondPlayerCard = theDeck.pop()
     const secondDealerCard = theDeck.pop()
-
-
-    
     const playerCards = [firstPlayerCard, secondPlayerCard]
     const dealerCards = [firstDealerCard, secondDealerCard]
-
     const playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
     const dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
-    console.log(playerCardsValue)
-    console.log(dealerCardsValue)
-     
+    playerHandValue.innerText = playerCardsValue
+    dealerHandValue.innerText = dealerCardsValue
 
-    // console.log(playerCards[0].value)
-    // console.log(playerCards)
-
-
-    
- 
     playerHand.appendChild(firstPlayerCard.drawOne())
     playerHand.appendChild(secondPlayerCard.drawOne())
     dealerHand.appendChild(firstDealerCard.drawOne())
     dealerHand.appendChild(secondDealerCard.drawOne())
+   
 
-    // try to appendChild to each card then put them into the hand afterwards. Maybe dont need the firstHand Function this way?
 
     updateDeck()
 
