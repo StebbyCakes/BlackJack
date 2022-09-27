@@ -29,7 +29,7 @@ export default class Deck {
     }
 
     push() {
-        return this.cards.push(card)
+        return this.cards.push()
     }
 
     shuffle(){

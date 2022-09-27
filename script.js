@@ -35,7 +35,15 @@ document.getElementById("startBtn").addEventListener('click', () => {
     }
 })
 
-let inRound, theDeck, stop
+document.getElementById("hitBtn").addEventListener('click', () => {
+    const newPlayerCard = theDeck.pop()
+    playerHand.appendChild(newPlayerCard.drawOne())
+    playerCardsValue += CARD_VALUE_MAP[newPlayerCard.value]
+    console.log(newPlayerCard)
+    return playerHandValue
+})
+
+let inRound, theDeck, stop, playerCardsValue, playerCards
 
 startGame()
 function startGame() {
@@ -46,6 +54,16 @@ function startGame() {
 
     newRound()
 }
+
+// function getHandvalue() {
+//     playerHand.forEach(card => console.log(getElementByClassName(card)))
+    
+//     // for (let cards = 0; cards < playerHand.length; cards++){
+//     //     playerHandValue += CARD_VALUE_MAP[playerCards.value]
+// //playerHand.Length is undefined, need to find new way to loop through the cards in hand
+
+//     }
+
 
 function newRound(){
     inRound = false
@@ -62,9 +80,9 @@ function fullHand() {
     const firstDealerCard = theDeck.pop()
     const secondPlayerCard = theDeck.pop()
     const secondDealerCard = theDeck.pop()
-    const playerCards = [firstPlayerCard, secondPlayerCard]
-    const dealerCards = [firstDealerCard, secondDealerCard]
-    const playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
+    playerCards = [firstPlayerCard, secondPlayerCard]
+    let dealerCards = [firstDealerCard, secondDealerCard]
+    playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
     const dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
     playerHandValue.innerText = playerCardsValue
     dealerHandValue.innerText = dealerCardsValue
@@ -74,13 +92,12 @@ function fullHand() {
     dealerHand.appendChild(firstDealerCard.drawOne())
     dealerHand.appendChild(secondDealerCard.drawOne())
    
-
+    console.log(playerHand)
 
     updateDeck()
 
     if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
         alert("Win")
-        
     } else if (isRoundWinner(dealerCardsValue, playerCardsValue)){
         alert("Lose")
     } else {
