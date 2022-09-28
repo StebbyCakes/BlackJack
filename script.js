@@ -39,11 +39,48 @@ document.getElementById("hitBtn").addEventListener('click', () => {
     const newPlayerCard = theDeck.pop()
     playerHand.appendChild(newPlayerCard.drawOne())
     playerCardsValue += CARD_VALUE_MAP[newPlayerCard.value]
-    console.log(newPlayerCard)
+    playerHandValue.innerText = playerCardsValue
+    checkBust()
     return playerHandValue
+    
 })
 
-let inRound, theDeck, stop, playerCardsValue, playerCards
+document.getElementById("standBtn").addEventListener('click', () => {
+    dealerTurn()
+
+    if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
+        alert("Win")
+    } else if (isRoundWinner(dealerCardsValue, playerCardsValue)){
+        alert("Lose")
+    } else {
+        alert("Draw")
+    }
+
+    if (isGameOver(theDeck)) {
+        alert("Game Over")
+        stop = true
+    }
+})
+
+
+let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards
+
+function checkBust() {
+    if (playerCardsValue > 21) {
+        stop = true
+        newRound()
+        alert("Bust!")
+    }
+}
+
+function dealerTurn() {
+    if (dealerCardsValue < 16) {
+        let newDealerCard = theDeck.pop()
+        dealerHand.appendChild(newDealerCard.drawOne())
+        dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
+        dealerHandValue.innerText = dealerCardsValue
+    }
+}
 
 startGame()
 function startGame() {
@@ -52,7 +89,6 @@ function startGame() {
     inRound = false
     stop = false
 
-    newRound()
 }
 
 // function getHandvalue() {
@@ -81,9 +117,9 @@ function fullHand() {
     const secondPlayerCard = theDeck.pop()
     const secondDealerCard = theDeck.pop()
     playerCards = [firstPlayerCard, secondPlayerCard]
-    let dealerCards = [firstDealerCard, secondDealerCard]
+    dealerCards = [firstDealerCard, secondDealerCard]
     playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
-    const dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
+    dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
     playerHandValue.innerText = playerCardsValue
     dealerHandValue.innerText = dealerCardsValue
 
@@ -96,18 +132,7 @@ function fullHand() {
 
     updateDeck()
 
-    if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
-        alert("Win")
-    } else if (isRoundWinner(dealerCardsValue, playerCardsValue)){
-        alert("Lose")
-    } else {
-        alert("Draw")
-    }
-
-    if (isGameOver(theDeck)) {
-        alert("Game Over")
-        stop = true
-    }
+    
 
 }
 
