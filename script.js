@@ -74,31 +74,22 @@ function checkBust() {
 }
 
 function dealerTurn() {
-    if (dealerCardsValue < 16) {
+    if (dealerCardsValue < 17) {
         let newDealerCard = theDeck.pop()
         dealerHand.appendChild(newDealerCard.drawOne())
         dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
         dealerHandValue.innerText = dealerCardsValue
+        dealerTurn()
     }
 }
-
+ 
 startGame()
 function startGame() {
     theDeck = new Deck()
     theDeck.shuffle()
     inRound = false
     stop = false
-
 }
-
-// function getHandvalue() {
-//     playerHand.forEach(card => console.log(getElementByClassName(card)))
-    
-//     // for (let cards = 0; cards < playerHand.length; cards++){
-//     //     playerHandValue += CARD_VALUE_MAP[playerCards.value]
-// //playerHand.Length is undefined, need to find new way to loop through the cards in hand
-
-//     }
 
 
 function newRound(){
