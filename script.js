@@ -1,19 +1,19 @@
 import Deck from './deck.js'
 
 const CARD_VALUE_MAP = {
-    "2" : 2,
-    "3" : 3,
-    "4" : 4,
-    "5" : 5,
-    "6" : 6,
-    "7" : 7,
-    "8" : 8,
-    "9" : 9,
-    "10" : 10,
-    "J" : 10,
-    "Q" : 10,
-    "K" : 10,
-    "A" : 2,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "J": 10,
+    "Q": 10,
+    "K": 10,
+    "A": 2,
 }
 
 let dealerHandValue = document.querySelector('.dealer-hand-value')
@@ -28,10 +28,10 @@ document.getElementById("startBtn").addEventListener('click', () => {
         return
     }
 
-    if(inRound) {
+    if (inRound) {
         newRound()
     } else {
-        fullHand()
+        playerTurn()
     }
 })
 
@@ -40,102 +40,138 @@ document.getElementById("hitBtn").addEventListener('click', () => {
     playerHand.appendChild(newPlayerCard.drawOne())
     playerCardsValue += CARD_VALUE_MAP[newPlayerCard.value]
     playerHandValue.innerText = playerCardsValue
-    checkBust()
     return playerHandValue
-    
+
 })
 
 document.getElementById("standBtn").addEventListener('click', () => {
-    dealerTurn()
 
-    if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
-        alert("Win")
-    } else if (isRoundWinner(dealerCardsValue, playerCardsValue)){
-        alert("Lose")
-    } else {
-        alert("Draw")
-    }
+    dealerTurn()
+    checkBust()
+    
 
     if (isGameOver(theDeck)) {
         alert("Game Over")
         stop = true
-    }
+    }    
 })
 
 
-let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards
+let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard
 
 function checkBust() {
     if (playerCardsValue > 21) {
-        stop = true
-        newRound()
-        alert("Bust!")
+        playerBust = true
+    } else {
+        playerBust = false
+    }
+
+    if (dealerCardsValue > 21) {
+        dealerBust = true
+    } else {
+        dealerBust = false
+    }
+
+    if (playerBust && dealerBust == true) {
+        busted = true
+    } else {
+        busted = false
+    }
+
+    bustControl()
+    
+}
+
+function bustControl() {
+
+    if(busted == true) {
+        alert("Both Players Busted")
+    } else if (playerBust == true && dealerBust == false) {
+        alert("You Busted")
+    } else if(playerBust == false && dealerBust == true) {
+         alert("The Dealer Busted")
+    } else {
+        checkWinner()
     }
 }
 
-function dealerTurn() {
-    if (dealerCardsValue < 17) {
-        let newDealerCard = theDeck.pop()
-        dealerHand.appendChild(newDealerCard.drawOne())
-        dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
-        dealerHandValue.innerText = dealerCardsValue
-        dealerTurn()
+function checkWinner() {
+    if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
+        return alert("Win")
+    } else if (isRoundWinner(dealerCardsValue, playerCardsValue)) {
+        return alert("Lose")
+    } else {
+            alert("Draw")
     }
 }
- 
-startGame()
-function startGame() {
-    theDeck = new Deck()
-    theDeck.shuffle()
-    inRound = false
-    stop = false
-}
-
-
-function newRound(){
-    inRound = false
-    dealerHand.innerHTML = ''
-    playerHand.innerHTML = ''
-    count.innerText = ''
-
-}
-
-fullHand()
-function fullHand() {
-    inRound = true
-    const firstPlayerCard = theDeck.pop()
-    const firstDealerCard = theDeck.pop()
-    const secondPlayerCard = theDeck.pop()
-    const secondDealerCard = theDeck.pop()
-    playerCards = [firstPlayerCard, secondPlayerCard]
-    dealerCards = [firstDealerCard, secondDealerCard]
-    playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
-    dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
-    playerHandValue.innerText = playerCardsValue
-    dealerHandValue.innerText = dealerCardsValue
-
-    playerHand.appendChild(firstPlayerCard.drawOne())
-    playerHand.appendChild(secondPlayerCard.drawOne())
-    dealerHand.appendChild(firstDealerCard.drawOne())
-    dealerHand.appendChild(secondDealerCard.drawOne())
-   
-    console.log(playerHand)
-
-    updateDeck()
 
     
 
-}
+    startGame()
+    function startGame() {
+        newRound()
+        theDeck = new Deck()
+        theDeck.shuffle()
+        inRound = false
+        stop = false
+        busted = false
+        playerBust = false
+        dealerBust = false
+    }
 
 
-function updateDeck() {
-    theDeck.innerHTML = theDeck.numberOfCards
-}
+    function newRound() {
+        inRound = false
+        dealerHand.innerHTML = ''
+        playerHand.innerHTML = ''
+        count.innerText = ''
+        playerCardsValue = 0
+        dealerCardsValue = 0
+    }
 
-function isRoundWinner(playerCardsValue, dealerCardsValue) {
-    return playerCardsValue > dealerCardsValue
-}
+    playerTurn()
+    function playerTurn() {
+        inRound = true
+        firstPlayerCard = theDeck.pop()
+        firstDealerCard = theDeck.pop()
+        secondPlayerCard = theDeck.pop()
+        secondDealerCard = theDeck.pop()
+        playerCards = [firstPlayerCard, secondPlayerCard]
+        dealerCards = [firstDealerCard, secondDealerCard]
+        playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
+        dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
+        playerHandValue.innerText = playerCardsValue
+        dealerHandValue.innerText = dealerCardsValue
 
-function isGameOver(deck) {
-    return deck.numberOfCards === 0
-}
+        playerHand.appendChild(firstPlayerCard.drawOne())
+        playerHand.appendChild(secondPlayerCard.drawOne())
+        dealerHand.appendChild(firstDealerCard.drawOne())
+        dealerHand.appendChild(secondDealerCard.drawOne())
+
+        updateDeck()
+    }
+
+    function dealerTurn() {
+        if (dealerCardsValue < 17) {
+            let newDealerCard = theDeck.pop()
+            dealerHand.appendChild(newDealerCard.drawOne())
+            dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
+            dealerHandValue.innerText = dealerCardsValue
+
+            dealerTurn()
+            
+        }
+    }
+
+
+    function updateDeck() {
+        theDeck.innerHTML = theDeck.numberOfCards
+    }
+
+    function isRoundWinner(playerCardsValue, dealerCardsValue) {
+        return playerCardsValue > dealerCardsValue
+    }
+
+    function isGameOver(theDeck) {
+        return theDeck.numberOfCards === 0
+    }
