@@ -51,6 +51,10 @@ body {
     color: white;
     user-select: none;
 }
+.hidden {
+    background: url("https://i.pinimg.com/474x/c7/9f/04/c79f043c858f1dc8c5c3bf6a22962b9f--art-tattoos-skull-tattoos.jpg") top left / cover no-repeat; 
+    content-visibility: hidden;  
+}   
 
 .button {
     height: 100%;
@@ -87,6 +91,7 @@ body {
     font-size: 4rem;
 
 }
+
 
 .card.red {
     color: red;

@@ -45,10 +45,11 @@ document.getElementById("hitBtn").addEventListener('click', () => {
 })
 
 document.getElementById("standBtn").addEventListener('click', () => {
-
+    hiddenCard.classList.remove("hidden")
+    dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
     dealerTurn()
+    dealerHandValue.innerText = dealerCardsValue
     checkBust()
-    
 
     if (isGameOver(theDeck)) {
         alert("Game Over")
@@ -57,7 +58,7 @@ document.getElementById("standBtn").addEventListener('click', () => {
 })
 
 
-let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard
+let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard
 
 function checkBust() {
     if (playerCardsValue > 21) {
@@ -106,7 +107,6 @@ function checkWinner() {
 }
 
     
-
     startGame()
     function startGame() {
         newRound()
@@ -129,7 +129,6 @@ function checkWinner() {
         dealerCardsValue = 0
     }
 
-    playerTurn()
     function playerTurn() {
         inRound = true
         firstPlayerCard = theDeck.pop()
@@ -139,13 +138,15 @@ function checkWinner() {
         playerCards = [firstPlayerCard, secondPlayerCard]
         dealerCards = [firstDealerCard, secondDealerCard]
         playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
-        dealerCardsValue = CARD_VALUE_MAP[dealerCards[0].value] + CARD_VALUE_MAP[dealerCards[1].value]
+        dealerCardsValue = CARD_VALUE_MAP[dealerCards[1].value]
         playerHandValue.innerText = playerCardsValue
         dealerHandValue.innerText = dealerCardsValue
+        hiddenCard = firstDealerCard.drawOne()
+        hiddenCard.classList.add("hidden")
 
         playerHand.appendChild(firstPlayerCard.drawOne())
         playerHand.appendChild(secondPlayerCard.drawOne())
-        dealerHand.appendChild(firstDealerCard.drawOne())
+        dealerHand.appendChild(hiddenCard)
         dealerHand.appendChild(secondDealerCard.drawOne())
 
         updateDeck()
@@ -156,10 +157,7 @@ function checkWinner() {
             let newDealerCard = theDeck.pop()
             dealerHand.appendChild(newDealerCard.drawOne())
             dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
-            dealerHandValue.innerText = dealerCardsValue
-
             dealerTurn()
-            
         }
     }
 
