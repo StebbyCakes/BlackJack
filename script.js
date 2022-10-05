@@ -16,6 +16,23 @@ const CARD_VALUE_MAP = {
     "A": 2,
 }
 
+
+const CARD_COUNTING_MAP = {
+    "2": 1,
+    "3": 1,
+    "4": 1,
+    "5": 1,
+    "6": 1,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": -1,
+    "J": -1,
+    "Q": -1,
+    "K": -1,
+    "A": -1,
+}
+
 let dealerHandValue = document.querySelector('.dealer-hand-value')
 let playerHandValue = document.querySelector('.player-hand-value')
 const dealerHand = document.querySelector('.dealer-hand')
@@ -39,6 +56,8 @@ document.getElementById("hitBtn").addEventListener('click', () => {
     const newPlayerCard = theDeck.pop()
     playerHand.appendChild(newPlayerCard.drawOne())
     playerCardsValue += CARD_VALUE_MAP[newPlayerCard.value]
+    theCount += CARD_COUNTING_MAP[newPlayerCard.value]
+    count.innerText = theCount
     playerHandValue.innerText = playerCardsValue
     return playerHandValue
 
@@ -47,8 +66,10 @@ document.getElementById("hitBtn").addEventListener('click', () => {
 document.getElementById("standBtn").addEventListener('click', () => {
     hiddenCard.classList.remove("hidden")
     dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
+    theCount += CARD_COUNTING_MAP[dealerCards[0].value]
     dealerTurn()
     dealerHandValue.innerText = dealerCardsValue
+    count.innerText = theCount
     checkBust()
 
     if (isGameOver(theDeck)) {
@@ -58,7 +79,7 @@ document.getElementById("standBtn").addEventListener('click', () => {
 })
 
 
-let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard
+let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount
 
 function checkBust() {
     if (playerCardsValue > 21) {
@@ -124,7 +145,6 @@ function checkWinner() {
         inRound = false
         dealerHand.innerHTML = ''
         playerHand.innerHTML = ''
-        count.innerText = ''
         playerCardsValue = 0
         dealerCardsValue = 0
     }
@@ -139,10 +159,12 @@ function checkWinner() {
         dealerCards = [firstDealerCard, secondDealerCard]
         playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
         dealerCardsValue = CARD_VALUE_MAP[dealerCards[1].value]
+        theCount = CARD_COUNTING_MAP[playerCards[0].value] + CARD_COUNTING_MAP[playerCards[1].value] + CARD_COUNTING_MAP[dealerCards[1].value]
         playerHandValue.innerText = playerCardsValue
         dealerHandValue.innerText = dealerCardsValue
         hiddenCard = firstDealerCard.drawOne()
         hiddenCard.classList.add("hidden")
+        count.innerText = theCount
 
         playerHand.appendChild(firstPlayerCard.drawOne())
         playerHand.appendChild(secondPlayerCard.drawOne())
@@ -157,6 +179,7 @@ function checkWinner() {
             let newDealerCard = theDeck.pop()
             dealerHand.appendChild(newDealerCard.drawOne())
             dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
+            theCount += CARD_COUNTING_MAP[newDealerCard.value]
             dealerTurn()
         }
     }
