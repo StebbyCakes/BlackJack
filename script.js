@@ -180,6 +180,7 @@ function checkWinner() {
             dealerHand.appendChild(newDealerCard.drawOne())
             dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
             theCount += CARD_COUNTING_MAP[newDealerCard.value]
+            updateDeck()
             dealerTurn()
         }
     }

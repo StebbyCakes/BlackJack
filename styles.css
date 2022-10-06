@@ -5,7 +5,7 @@
 body {
     margin: 0;
     display: grid;
-    grid-template-columns: 5rem 3rem 5rem;
+    grid-template-columns: 25rem 3rem 5rem;
     grid-template-rows: 12rem 5rem 12rem;
     gap: .5rem;
     justify-content: center;
@@ -81,8 +81,8 @@ body {
 
 .card {
     position: relative;
-    height: 100px;
-    width: 100px;
+    height: 160px;
+    width: 115px;
     border: solid black 1px;
     display: flex;
     justify-content: center;
@@ -92,6 +92,10 @@ body {
 
 }
 
+.player-hand {
+    padding-left: 2px;
+    padding-right: 2px;
+}
 
 .card.red {
     color: red;
