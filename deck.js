@@ -28,10 +28,6 @@ export default class Deck {
         return this.cards.shift()
     }
 
-    push() {
-        return this.cards.push()
-    }
-
     shuffle(){
         for(let i = this.numberOfCards - 1; i > 0; i--) {
             const newIndex = Math.floor(Math.random() * (i + 1))
