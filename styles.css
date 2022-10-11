@@ -34,8 +34,9 @@ body {
 .bottom {
     border: 3px solid black;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    width: 500px;
     height: 50px;
     margin: 5px;
     padding: 10px;
@@ -91,10 +92,9 @@ body {
     user-select: none;
 }
 
-/* .hit {
-    width: 80px;
-} */
-
+.disabled {
+    pointer-events: none;
+}
 
 .card {
     position: relative;
@@ -139,4 +139,9 @@ body {
     bottom: .5rem;
     right: .5rem;
     transform: rotate(180deg);
+}
+
+.deck-count {
+    border: solid black 1px;
+    font-size: 5rem;
 }

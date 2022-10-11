@@ -38,6 +38,7 @@ let playerHandValue = document.querySelector('.player-hand-value')
 const dealerHand = document.querySelector('.dealer-hand')
 const playerHand = document.querySelector('.player-hand')
 const count = document.querySelector('.count')
+let checkingDeck = document.querySelector('.deck-count')
 
 document.getElementById("startBtn").addEventListener('click', () => {
     if (stop) {
@@ -59,7 +60,10 @@ document.getElementById("hitBtn").addEventListener('click', () => {
     theCount += CARD_COUNTING_MAP[newPlayerCard.value]
     count.innerText = theCount
     playerHandValue.innerText = playerCardsValue
+    updateDeck()
+    checkGameOver()
     return playerHandValue
+    
 
 })
 
@@ -72,14 +76,20 @@ document.getElementById("standBtn").addEventListener('click', () => {
     count.innerText = theCount
     checkBust()
 
-    if (isGameOver(theDeck)) {
-        alert("Game Over")
-        stop = true
-    }    
+      
 })
 
 
+
+
 let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount
+
+function checkGameOver() {
+    if (isGameOver(theDeck)) {
+        alert("Game Over")
+        stop = true
+    }  
+}
 
 function checkBust() {
     if (playerCardsValue > 21) {
@@ -138,6 +148,7 @@ function checkWinner() {
         busted = false
         playerBust = false
         dealerBust = false
+        updateDeck()
     }
 
 
@@ -150,6 +161,8 @@ function checkWinner() {
     }
 
     function playerTurn() {
+        console.log(theDeck.numberOfCards)
+        checkingDeck.innerText = theDeck.numberOfCards
         inRound = true
         firstPlayerCard = theDeck.pop()
         firstDealerCard = theDeck.pop()
@@ -171,7 +184,6 @@ function checkWinner() {
         dealerHand.appendChild(hiddenCard)
         dealerHand.appendChild(secondDealerCard.drawOne())
 
-        updateDeck()
     }
 
     function dealerTurn() {
@@ -180,20 +192,19 @@ function checkWinner() {
             dealerHand.appendChild(newDealerCard.drawOne())
             dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
             theCount += CARD_COUNTING_MAP[newDealerCard.value]
-            updateDeck()
             dealerTurn()
         }
     }
 
 
     function updateDeck() {
-        theDeck.innerHTML = theDeck.numberOfCards
+        checkingDeck.innerText = theDeck.numberOfCards
     }
 
     function isRoundWinner(playerCardsValue, dealerCardsValue) {
         return playerCardsValue > dealerCardsValue
     }
 
-    function isGameOver(theDeck) {
-        return theDeck.numberOfCards === 0
+    function isGameOver(deck) {
+        return deck.numberOfCards === 0
     }
