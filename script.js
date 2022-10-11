@@ -72,6 +72,7 @@ document.getElementById("standBtn").addEventListener('click', () => {
     dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
     theCount += CARD_COUNTING_MAP[dealerCards[0].value]
     dealerTurn()
+    updateDeck()
     dealerHandValue.innerText = dealerCardsValue
     count.innerText = theCount
     checkBust()
