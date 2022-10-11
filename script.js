@@ -33,24 +33,28 @@ const CARD_COUNTING_MAP = {
     "A": -1,
 }
 
-let dealerHandValue = document.querySelector('.dealer-hand-value')
-let playerHandValue = document.querySelector('.player-hand-value')
+const dealerHandValue = document.querySelector('.dealer-hand-value')
+const playerHandValue = document.querySelector('.player-hand-value')
 const dealerHand = document.querySelector('.dealer-hand')
 const playerHand = document.querySelector('.player-hand')
 const count = document.querySelector('.count')
-let checkingDeck = document.querySelector('.deck-count')
+const startGameElement = document.querySelector('.start-game')
+const hit = document.querySelector('.hit')
+const stand = document.querySelector('.stand')
 
 document.getElementById("startBtn").addEventListener('click', () => {
+    
     if (stop) {
         startGame()
         return
     }
 
-    if (inRound) {
-        newRound()
-    } else {
-        playerTurn()
-    }
+    newRound()
+    playerTurn()
+    startGameElement.classList.add("disabled")
+    hit.classList.remove("disabled")
+    stand.classList.remove("disabled")
+
 })
 
 document.getElementById("hitBtn").addEventListener('click', () => {
@@ -60,30 +64,42 @@ document.getElementById("hitBtn").addEventListener('click', () => {
     theCount += CARD_COUNTING_MAP[newPlayerCard.value]
     count.innerText = theCount
     playerHandValue.innerText = playerCardsValue
-    updateDeck()
     checkGameOver()
+    if (playerCardsValue > 21) {
+        alert("You Busted")
+        hiddenCard.classList.remove("hidden")
+        dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
+        theCount += CARD_COUNTING_MAP[dealerCards[0].value]
+        hit.classList.add("disabled")
+        stand.classList.add("disabled")
+        startGameElement.classList.remove("disabled")
+    } 
     return playerHandValue
     
 
 })
 
 document.getElementById("standBtn").addEventListener('click', () => {
+
     hiddenCard.classList.remove("hidden")
     dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
     theCount += CARD_COUNTING_MAP[dealerCards[0].value]
     dealerTurn()
-    updateDeck()
     dealerHandValue.innerText = dealerCardsValue
     count.innerText = theCount
     checkBust()
+    startGameElement.classList.remove("disabled")
+    checkGameOver()
+    hit.classList.add("disabled")
+    stand.classList.add("disabled")
 
-      
 })
 
 
 
 
-let inRound, theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount
+let theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, noTurn
+
 
 function checkGameOver() {
     if (isGameOver(theDeck)) {
@@ -144,17 +160,15 @@ function checkWinner() {
         newRound()
         theDeck = new Deck()
         theDeck.shuffle()
-        inRound = false
         stop = false
         busted = false
         playerBust = false
         dealerBust = false
-        updateDeck()
+
     }
 
 
     function newRound() {
-        inRound = false
         dealerHand.innerHTML = ''
         playerHand.innerHTML = ''
         playerCardsValue = 0
@@ -162,9 +176,7 @@ function checkWinner() {
     }
 
     function playerTurn() {
-        console.log(theDeck.numberOfCards)
-        checkingDeck.innerText = theDeck.numberOfCards
-        inRound = true
+        checkGameOver()
         firstPlayerCard = theDeck.pop()
         firstDealerCard = theDeck.pop()
         secondPlayerCard = theDeck.pop()
@@ -197,10 +209,6 @@ function checkWinner() {
         }
     }
 
-
-    function updateDeck() {
-        checkingDeck.innerText = theDeck.numberOfCards
-    }
 
     function isRoundWinner(playerCardsValue, dealerCardsValue) {
         return playerCardsValue > dealerCardsValue
