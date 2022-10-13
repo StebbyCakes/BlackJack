@@ -70,6 +70,8 @@ document.getElementById("hitBtn").addEventListener('click', () => {
         hiddenCard.classList.remove("hidden")
         dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
         theCount += CARD_COUNTING_MAP[dealerCards[0].value]
+        dealerHandValue.innerText = dealerCardsValue
+        count.innerText = theCount
         hit.classList.add("disabled")
         stand.classList.add("disabled")
         startGameElement.classList.remove("disabled")
@@ -105,6 +107,7 @@ function checkGameOver() {
     if (isGameOver(theDeck)) {
         alert("Game Over")
         stop = true
+        count = 0
     }  
 }
 

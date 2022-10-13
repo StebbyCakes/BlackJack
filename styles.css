@@ -21,25 +21,35 @@ body {
 
 }
 
-.top {
+.titles {
     border: 3px solid black;
+    font-size: 20px;
+    height: 50px;
+    margin: 30px;
+    padding: 10px;
+    font-weight: bold;
+    
+}
+
+.top {
+    /* border: 3px solid black; */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
-    margin: 20px;
-    padding: 5px;
+
+    
 }
 
 .bottom {
-    border: 3px solid black;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 500px;
+    border: 3px solid black;
+    font-size: 20px;
     height: 50px;
-    margin: 5px;
+    margin: 30px;
     padding: 10px;
+    font-weight: bold;
 }
 
 
@@ -75,9 +85,6 @@ body {
 .button {
     
     border: 3px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 50%;
     color: black;
 }
