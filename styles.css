@@ -44,11 +44,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 3px solid black;
     font-size: 20px;
     height: 50px;
-    margin: 30px;
-    padding: 10px;
     font-weight: bold;
 }
 
@@ -82,11 +79,13 @@ body {
     content-visibility: hidden;  
 }   
 
-.button {
-    
+.button { 
     border: 3px solid black;
     border-radius: 50%;
+    background-color: white;
     color: black;
+    margin: 50px;
+    font-weight: bold;
 }
 
 .count { 
