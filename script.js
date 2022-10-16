@@ -54,6 +54,7 @@ document.getElementById("startBtn").addEventListener('click', () => {
     startGameElement.classList.add("disabled")
     hit.classList.remove("disabled")
     stand.classList.remove("disabled")
+    
 
 })
 
@@ -111,14 +112,14 @@ document.getElementById("standBtn").addEventListener('click', () => {
 
 
 
-let theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, noTurn
+let theDeck, stop, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount
 
 
 function checkGameOver() {
     if (isGameOver(theDeck)) {
         alert("Game Over")
         stop = true
-        count = 0
+        theCount = 0
     }  
 }
 
@@ -178,6 +179,8 @@ function checkWinner() {
         busted = false
         playerBust = false
         dealerBust = false
+        theCount = 0
+
 
     }
 
@@ -187,10 +190,10 @@ function checkWinner() {
         playerHand.innerHTML = ''
         playerCardsValue = 0
         dealerCardsValue = 0
+        
     }
 
     function playerTurn() {
-        checkGameOver()
         firstPlayerCard = theDeck.pop()
         firstDealerCard = theDeck.pop()
         secondPlayerCard = theDeck.pop()
@@ -203,7 +206,7 @@ function checkWinner() {
             playerCardsValue -= 10
             alert("ran")
         }
-        theCount = CARD_COUNTING_MAP[playerCards[0].value] + CARD_COUNTING_MAP[playerCards[1].value] + CARD_COUNTING_MAP[dealerCards[1].value]
+        theCount += CARD_COUNTING_MAP[playerCards[0].value] + CARD_COUNTING_MAP[playerCards[1].value] + CARD_COUNTING_MAP[dealerCards[1].value]
         playerHandValue.innerText = playerCardsValue
         dealerHandValue.innerText = dealerCardsValue
         hiddenCard = firstDealerCard.drawOne()
