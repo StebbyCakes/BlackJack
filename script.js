@@ -180,6 +180,8 @@ function checkWinner() {
         playerBust = false
         dealerBust = false
         theCount = 0
+        hit.classList.add("disabled")
+        stand.classList.add("disabled")
 
 
     }
