@@ -5,8 +5,6 @@
 body {
     margin: 0;
     display: grid;
-    /* grid-template-columns: 25rem 3rem 5rem;
-    grid-template-rows: 12rem 5rem 12rem; */
     gap: .5rem;
     justify-content: center;
     padding-top: 5%;
@@ -32,7 +30,6 @@ body {
 }
 
 .top {
-    /* border: 3px solid black; */
     display: flex;
     justify-content: center;
     align-items: center;

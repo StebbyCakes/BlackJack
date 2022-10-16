@@ -13,7 +13,7 @@ const CARD_VALUE_MAP = {
     "J": 10,
     "Q": 10,
     "K": 10,
-    "A": 2,
+    "A": 11,
 }
 
 
@@ -61,6 +61,11 @@ document.getElementById("hitBtn").addEventListener('click', () => {
     const newPlayerCard = theDeck.pop()
     playerHand.appendChild(newPlayerCard.drawOne())
     playerCardsValue += CARD_VALUE_MAP[newPlayerCard.value]
+    if (newPlayerCard.value == 'A' && playerCardsValue > 21) {
+        playerCardsValue -= 10
+    } else if (secondPlayerCard.value == 'A' && playerCardsValue > 21) {
+        playerCardsValue -= 10
+    }
     theCount += CARD_COUNTING_MAP[newPlayerCard.value]
     count.innerText = theCount
     playerHandValue.innerText = playerCardsValue
@@ -69,6 +74,9 @@ document.getElementById("hitBtn").addEventListener('click', () => {
         alert("You Busted")
         hiddenCard.classList.remove("hidden")
         dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
+        if (dealerCards[0].value == 'A' && dealerCardsValue > 21) {
+            dealerCardsValue -= 10
+        }
         theCount += CARD_COUNTING_MAP[dealerCards[0].value]
         dealerHandValue.innerText = dealerCardsValue
         count.innerText = theCount
@@ -87,6 +95,9 @@ document.getElementById("standBtn").addEventListener('click', () => {
     dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
     theCount += CARD_COUNTING_MAP[dealerCards[0].value]
     dealerTurn()
+    if (dealerCards[1].value == 'A' && dealerCardsValue > 21) {
+        dealerCardsValue -= 10
+    }
     dealerHandValue.innerText = dealerCardsValue
     count.innerText = theCount
     checkBust()
@@ -188,6 +199,10 @@ function checkWinner() {
         dealerCards = [firstDealerCard, secondDealerCard]
         playerCardsValue = CARD_VALUE_MAP[playerCards[0].value] + CARD_VALUE_MAP[playerCards[1].value]
         dealerCardsValue = CARD_VALUE_MAP[dealerCards[1].value]
+        if (firstPlayerCard.value == 'A' && playerCardsValue > 21) {
+            playerCardsValue -= 10
+            alert("ran")
+        }
         theCount = CARD_COUNTING_MAP[playerCards[0].value] + CARD_COUNTING_MAP[playerCards[1].value] + CARD_COUNTING_MAP[dealerCards[1].value]
         playerHandValue.innerText = playerCardsValue
         dealerHandValue.innerText = dealerCardsValue
@@ -207,6 +222,9 @@ function checkWinner() {
             let newDealerCard = theDeck.pop()
             dealerHand.appendChild(newDealerCard.drawOne())
             dealerCardsValue += CARD_VALUE_MAP[newDealerCard.value]
+            if(newDealerCard.value == 'A' && dealerCardsValue > 21) {
+                dealerCardsValue -= 10
+            }
             theCount += CARD_COUNTING_MAP[newDealerCard.value]
             dealerTurn()
         }
