@@ -42,10 +42,26 @@ const startGameElement = document.querySelector('.start-game')
 const hit = document.querySelector('.hit')
 const stand = document.querySelector('.stand')
 
-let theDeck, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, busted, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, oneTime
 
+
+let theDeck, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, oneTime, live
+
+function playBackroundMusic() {
+    if (live == true) {
+        var background = new Audio('./sounds/background.mp3')
+        background.volume = 0.1
+        background.play()
+        live = false
+    } else {
+        live = false
+    }
+}
+var fail = new Audio('./sounds/fail.mp3')
+var money = new Audio('./sounds/money.mp3')
+var swash = new Audio('./sounds/swash.mp3')
 
 document.getElementById("startBtn").addEventListener('click', () => {
+    playBackroundMusic()
     checkGameOver()
     newRound()
     playerTurn()
@@ -70,7 +86,7 @@ document.getElementById("hitBtn").addEventListener('click', () => {
     playerHandValue.innerText = playerCardsValue
     checkGameOver()
     if (playerCardsValue > 21) {
-        alert("You Busted")
+        fail.play()
         hiddenCard.classList.remove("hidden")
         dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
         if (dealerCards[0].value == 'A' && dealerCardsValue > 21) {
@@ -113,15 +129,13 @@ function startGame() {
     newRound()
     theDeck = new Deck()
     theDeck.shuffle()
-    busted = false
     playerBust = false
     dealerBust = false
     theCount = 0
     oneTime = false
     hit.classList.add("disabled")
     stand.classList.add("disabled")
-
-
+    live = true
 }
 
 
@@ -195,9 +209,9 @@ function bustControl() {
 
     
     if (playerBust == true) {
-        alert("You Busted")
+        fail.play()
     } else if(dealerBust == true) {
-         alert("The Dealer Busted")
+         money.play()
     } else {
         checkWinner()
     }
@@ -205,11 +219,11 @@ function bustControl() {
 
 function checkWinner() {
     if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
-        return alert("Win")
+        money.play()
     } else if (isRoundWinner(dealerCardsValue, playerCardsValue)) {
-        return alert("Lose")
+        fail.play()
     } else {
-            alert("Draw")
+        swash.play()
     }
 }
 
