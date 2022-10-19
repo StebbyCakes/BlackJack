@@ -44,12 +44,12 @@ const stand = document.querySelector('.stand')
 
 
 
-let theDeck, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, oneTime, live
+let theDeck = [], playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, oneTime, live
 
 function playBackroundMusic() {
     if (live == true) {
         var background = new Audio('./sounds/background.mp3')
-        background.volume = 0.1
+        background.volume = 0.03
         background.play()
         live = false
     } else {
@@ -109,10 +109,10 @@ document.getElementById("standBtn").addEventListener('click', () => {
     hiddenCard.classList.remove("hidden")
     dealerCardsValue += CARD_VALUE_MAP[dealerCards[0].value]
     theCount += CARD_COUNTING_MAP[dealerCards[0].value]
-    dealerTurn()
     if (dealerCards[1].value == 'A' && dealerCardsValue > 21) {
         dealerCardsValue -= 10
     }
+    dealerTurn()
     dealerHandValue.innerText = dealerCardsValue
     count.innerText = theCount
     checkBust()
@@ -128,7 +128,12 @@ startGame()
 function startGame() {
     newRound()
     theDeck = new Deck()
-    theDeck.shuffle()
+
+    var theDeckCopy1 = JSON.parse(JSON.stringify(theDeck))
+    theDeck.cards = theDeck.cards.concat(theDeckCopy1.cards)
+
+    
+
     playerBust = false
     dealerBust = false
     theCount = 0
