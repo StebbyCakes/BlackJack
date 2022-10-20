@@ -41,26 +41,39 @@ const count = document.querySelector('.count')
 const startGameElement = document.querySelector('.start-game')
 const hit = document.querySelector('.hit')
 const stand = document.querySelector('.stand')
+const deckCounter = document.querySelector('.deck-counter')
+const oneDeck = document.querySelector('.one-deck')
+const twoDeck = document.querySelector('.two-deck')
+
+document.getElementById('one-deck').addEventListener('click', () => {
+    numberOfDecks = 1
+    startGame()
+})
+
+document.getElementById('two-deck').addEventListener('click' , () =>{
+    numberOfDecks = 3
+    startGame()
+})
 
 
-
-let theDeck = [], playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, oneTime, live
+let numberOfDecks = 0
+let theDeck, newDeckCopy, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, oneTime, live
 
 function playBackroundMusic() {
-    if (live == true) {
+    if (live == false) {
         var background = new Audio('./sounds/background.mp3')
         background.volume = 0.03
         background.play()
         live = false
     } else {
-        live = false
+        live = true
     }
 }
 var fail = new Audio('./sounds/fail.mp3')
 var money = new Audio('./sounds/money.mp3')
 var swash = new Audio('./sounds/swash.mp3')
 
-document.getElementById("startBtn").addEventListener('click', () => {
+document.getElementById("newRound").addEventListener('click', () => {
     playBackroundMusic()
     checkGameOver()
     newRound()
@@ -84,6 +97,7 @@ document.getElementById("hitBtn").addEventListener('click', () => {
     theCount += CARD_COUNTING_MAP[newPlayerCard.value]
     count.innerText = theCount
     playerHandValue.innerText = playerCardsValue
+    getDeckLength()
     checkGameOver()
     if (playerCardsValue > 21) {
         fail.play()
@@ -92,6 +106,7 @@ document.getElementById("hitBtn").addEventListener('click', () => {
         if (dealerCards[0].value == 'A' && dealerCardsValue > 21) {
             dealerCardsValue -= 10
         }
+        getDeckLength()
         theCount += CARD_COUNTING_MAP[dealerCards[0].value]
         dealerHandValue.innerText = dealerCardsValue
         count.innerText = theCount
@@ -115,6 +130,7 @@ document.getElementById("standBtn").addEventListener('click', () => {
     dealerTurn()
     dealerHandValue.innerText = dealerCardsValue
     count.innerText = theCount
+    getDeckLength()
     checkBust()
     checkGameOver()
     startGameElement.classList.remove("disabled")
@@ -124,15 +140,22 @@ document.getElementById("standBtn").addEventListener('click', () => {
 })
 
 
-startGame()
+
 function startGame() {
     newRound()
-    theDeck = new Deck()
+     if (numberOfDecks == 1){
+        theDeck = new Deck()
+        theDeck.shuffle()
+    } else {
+        theDeck = new Deck()
+        for (let i = 0; i < numberOfDecks - 1; i++){
+            newDeckCopy = new Deck()
+            theDeck.cards = theDeck.cards.concat(newDeckCopy.cards)
+            theDeck.shuffle()
+    }
+   
+}
 
-    var theDeckCopy1 = JSON.parse(JSON.stringify(theDeck))
-    theDeck.cards = theDeck.cards.concat(theDeckCopy1.cards)
-
-    
 
     playerBust = false
     dealerBust = false
@@ -176,6 +199,7 @@ function playerTurn() {
     playerHand.appendChild(secondPlayerCard.drawOne())
     dealerHand.appendChild(hiddenCard)
     dealerHand.appendChild(secondDealerCard.drawOne())
+    getDeckLength()
     checkGameOver()
 }
 
@@ -189,6 +213,7 @@ function dealerTurn() {
             dealerCardsValue -= 10
         }
         theCount += CARD_COUNTING_MAP[newDealerCard.value]
+        getDeckLength()
         dealerTurn()
     }
 }
@@ -246,4 +271,8 @@ function checkGameOver() {
         alert("Game Over")
         startGame()
     }  
+}
+
+function getDeckLength(){
+    return deckCounter.innerText = theDeck.numberOfCards
 }
