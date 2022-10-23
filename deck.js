@@ -16,10 +16,6 @@ let VALUES = [
 ]
 
 
-    
-
-
-
 export default class Deck {
     constructor(cards = freshDeck()) {
         this.cards = cards

@@ -1,4 +1,5 @@
 import Deck from './deck.js'
+// import getDecks from './home.js'
 
 const CARD_VALUE_MAP = {
     "2": 2,
@@ -43,20 +44,69 @@ const hit = document.querySelector('.hit')
 const stand = document.querySelector('.stand')
 const deckCounter = document.querySelector('.deck-counter')
 const oneDeck = document.querySelector('.one-deck')
-const twoDeck = document.querySelector('.two-deck')
+const twoDeck = document.querySelector('.six-deck')
+const eightDeck = document.querySelector('.eight-deck')
+const mainScreen = document.querySelector('.home')
+const enterGame = document.querySelector('.enter-game')
+const betBtn = document.querySelectorAll('.number')
+const numberOfDecksElement = document.querySelector('.decks-played')
+const playerBet = document.querySelector('.bets-played')
+const reset = document.querySelector('.reset')
+
+
+betBtn.forEach(function(button) {
+    button.addEventListener('click', pushNumber)
+})
+
+function pushNumber(event) {
+    number = number.concat(event.target.value)
+    let sum = number.reduce((accumulater, value) => {
+        return parseInt(accumulater) + parseInt(value)
+    })
+    numberOfDecksElement.innerText = 'Bets: ' + sum
+    
+}
+    
+document.getElementById('reset').addEventListener('click', () => {
+    playerBet.innerText = 'Decks: 1'
+    numberOfDecksElement.innerText = 'Bets: 0'
+    number = []
+})
+
+
+startScreen()
+function startScreen(){
+    playerBet.innerText = 'Decks: 1'
+    numberOfDecksElement.innerText = 'Bets: 0'
+    mainScreen.classList.add('home-screen')
+}
+
+
+
+document.getElementById('enter-game').addEventListener('click', () => {
+    startGame()
+    document.getElementById('top').scrollIntoView()
+})
+
+let numberOfDecks = 0
 
 document.getElementById('one-deck').addEventListener('click', () => {
     numberOfDecks = 1
-    startGame()
-})
+    playerBet.innerText = 'Decks: ' + numberOfDecks
+})  
 
-document.getElementById('two-deck').addEventListener('click' , () =>{
-    numberOfDecks = 3
-    startGame()
-})
+document.getElementById('six-deck').addEventListener('click' , () =>{
+    numberOfDecks = 6
+    playerBet.innerText = 'Decks: ' + numberOfDecks})
+
+document.getElementById('eight-deck').addEventListener('click' , () =>{
+    numberOfDecks = 8
+    playerBet.innerText = 'Decks: ' + numberOfDecks})
 
 
-let numberOfDecks = 0
+
+
+let number = []
 let theDeck, newDeckCopy, playerCardsValue, playerCards, dealerCardsValue, dealerCards, playerBust, dealerBust, firstPlayerCard, secondPlayerCard, firstDealerCard, secondDealerCard, hiddenCard, theCount, oneTime, live
 
 function playBackroundMusic() {
@@ -142,13 +192,15 @@ document.getElementById("standBtn").addEventListener('click', () => {
 
 
 function startGame() {
+    
+    
     newRound()
      if (numberOfDecks == 1){
         theDeck = new Deck()
         theDeck.shuffle()
     } else {
         theDeck = new Deck()
-        for (let i = 0; i < numberOfDecks - 1; i++){
+        for (let i = 1; i < numberOfDecks; i++){
             newDeckCopy = new Deck()
             theDeck.cards = theDeck.cards.concat(newDeckCopy.cards)
             theDeck.shuffle()
