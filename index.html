@@ -28,16 +28,30 @@
             </div>
         </div>
         <div class = "start">
-            <p class = "bets-played"></p>
             <p class = "decks-played"></p>
+            <p class = "bets-played"></p>
             <button id ='reset' class= "btn btn-danger" >Reset</button>
             
             <button href="#top" id = "enter-game" class = " btn btn-success enter-game"> Start Game</button>
         </div>
     </div>
 
-
-    <div class = "deck-counter"></div>
+    <div class = "stats">
+        <div>
+            <div class = "deck-title">Cards in Deck</div>
+            <div class = "deck-counter"></div>
+        </div>
+        <div>
+            <div class = "player-bet">Betting Money</div>
+            <div class = "active-bets"></div>
+        </div>
+        <div>
+            <div class = "player-bet">Current Bet</div>
+            <div class = "the-bet"></div>
+        </div>
+        
+    </div>
+    
     <div  class = "top">
         <div class = "titles">
             <p>Player's Hand:</p>
@@ -55,9 +69,27 @@
     <div id="top" class = "dealer-hand hand"></div>
     <div class = "player-hand hand"></div>
     <div class = "bottom">
+        
+       <!-- Default dropup button -->
+       
+<div class="btn-group dropup">
+    <button type="button" class="btn btn-outline-dark dropdown-toggle bet" data-bs-toggle="dropdown" aria-expanded="false">
+     BET
+    </button>
+    <ul class="dropdown-menu">
+        <button value = "5" class="btn btn-outline-dark live-bet" >5%</button>
+        <button value = "10" class="btn btn-outline-dark live-bet" >10%</button>
+        <button value = "33" class="btn btn-outline-dark live-bet" >33%</button>
+        <button value = "50" class="btn btn-outline-dark live-bet" >50%</button>
+        <button value = "100" class="btn btn-outline-dark live-bet" >ALL IN</button>
+      <!-- Dropdown menu links -->
+    </ul>
+  </div>
+            
+        
         <button type = "button" class= "btn btn-outline-dark hit button" id="hitBtn">HIT</button>
         <button type = "button" class = " btn btn-outline-dark stand button" id ="standBtn">STAND</button>
-        <div class = " btn btn-outline-dark start-game button" id="newRound">Deal</div>
+        <div class = " btn btn-outline-dark start-game button" id="newRound">DEAL</div>
     </div>
    
   

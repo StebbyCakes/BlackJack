@@ -1,6 +1,51 @@
 /* *, *::after, *::before {
     box-sizing: border-box;
 } */
+
+.stats{
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 10%;
+    gap: 20px;
+}
+
+.decks-played {
+    font-size: 30px;
+}
+
+.bets-played {
+    border: 2px solid black;
+    font-size: 30px;
+    width: 150px;
+    height: 50px;
+}
+
+.player-bet {
+    border: 3px solid black;
+    font-size: 20px;
+    font-weight: bold;
+    width: 160px;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.active-bets {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+}
+
+.the-bet {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+}
+
+
 .home-screen {
     color: white; 
     width: 100%;
@@ -16,6 +61,7 @@
 .space {
     margin-left: 10%;
     padding: 0%;
+    font-size: 35px;
 }
 
 .decks {
@@ -155,6 +201,9 @@ body {
     font-size: 4rem;
 
 }
+.bet{
+    background-color: white;
+}
 
 .player-hand {
     padding-left: 2px;
@@ -193,10 +242,23 @@ body {
 }
 
 .deck-counter {
-    border: 2px solid black;
-    font-size: 25px;
-    width: 50px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    width: 150px;
     height: 50px;
+    color: white;
+}
+
+.deck-title {
+    border: 3px solid black;
+    font-size: 20px;
+    font-weight: bold;
+    width: 150px;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
 }
 
 .deck {

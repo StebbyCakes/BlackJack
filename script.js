@@ -1,5 +1,4 @@
 import Deck from './deck.js'
-// import getDecks from './home.js'
 
 const CARD_VALUE_MAP = {
     "2": 2,
@@ -43,16 +42,25 @@ const startGameElement = document.querySelector('.start-game')
 const hit = document.querySelector('.hit')
 const stand = document.querySelector('.stand')
 const deckCounter = document.querySelector('.deck-counter')
-const oneDeck = document.querySelector('.one-deck')
-const twoDeck = document.querySelector('.six-deck')
-const eightDeck = document.querySelector('.eight-deck')
 const mainScreen = document.querySelector('.home')
-const enterGame = document.querySelector('.enter-game')
-const betBtn = document.querySelectorAll('.number')
 const numberOfDecksElement = document.querySelector('.decks-played')
 const playerBet = document.querySelector('.bets-played')
-const reset = document.querySelector('.reset')
+const activeBet = document.querySelector('.active-bets')
+const liveBet = document.querySelector('.the-bet')
 
+const betBtn = document.querySelectorAll('.number')
+const liveBetBtn = document.querySelectorAll('.live-bet')
+
+liveBetBtn.forEach(function(button) {
+    button.addEventListener('click', pushBet)
+})
+
+function pushBet(event) {
+    let bet = []
+    bet = (parseInt(bet.concat(event.target.value))) / 100
+    liveBet.innerText = bet * activeBet.innerText
+    activeBet.innerText = activeBet.innerText - liveBet.innerText
+}
 
 betBtn.forEach(function(button) {
     button.addEventListener('click', pushNumber)
@@ -63,21 +71,22 @@ function pushNumber(event) {
     let sum = number.reduce((accumulater, value) => {
         return parseInt(accumulater) + parseInt(value)
     })
-    numberOfDecksElement.innerText = 'Bets: ' + sum
+    activeBet.innerText = sum
+    playerBet.innerText =  'Bets: ' + sum
     
 }
     
 document.getElementById('reset').addEventListener('click', () => {
-    playerBet.innerText = 'Decks: 1'
-    numberOfDecksElement.innerText = 'Bets: 0'
+    numberOfDecksElement.innerText = 'Decks: 1'
+    playerBet.innerText = 'Bets: 0'
     number = []
 })
 
 
 startScreen()
 function startScreen(){
-    playerBet.innerText = 'Decks: 1'
-    numberOfDecksElement.innerText = 'Bets: 0'
+    numberOfDecksElement.innerText = 'Decks: 1'
+    playerBet.innerText = 'Bets: 0'
     mainScreen.classList.add('home-screen')
 }
 
@@ -86,22 +95,25 @@ function startScreen(){
 document.getElementById('enter-game').addEventListener('click', () => {
     startGame()
     document.getElementById('top').scrollIntoView()
+    getDeckLength()
+     
 })
 
 let numberOfDecks = 0
 
+
 document.getElementById('one-deck').addEventListener('click', () => {
     numberOfDecks = 1
-    playerBet.innerText = 'Decks: ' + numberOfDecks
+    numberOfDecksElement.innerText = 'Decks: ' + numberOfDecks
 })  
 
 document.getElementById('six-deck').addEventListener('click' , () =>{
     numberOfDecks = 6
-    playerBet.innerText = 'Decks: ' + numberOfDecks})
+    numberOfDecksElement.innerText = 'Decks: ' + numberOfDecks})
 
 document.getElementById('eight-deck').addEventListener('click' , () =>{
     numberOfDecks = 8
-    playerBet.innerText = 'Decks: ' + numberOfDecks})
+    numberOfDecksElement.innerText = 'Decks: ' + numberOfDecks})
 
 
 
@@ -292,8 +304,12 @@ function bustControl() {
     
     if (playerBust == true) {
         fail.play()
+        liveBet.innerText = 0
     } else if(dealerBust == true) {
          money.play()
+         activeBet.innerText += liveBet.innerText * 2
+         liveBet.innerText = 0
+
     } else {
         checkWinner()
     }
@@ -302,10 +318,15 @@ function bustControl() {
 function checkWinner() {
     if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
         money.play()
+        activeBet.innerText += liveBet.innerText * 2
+        liveBet.innerText = 0
     } else if (isRoundWinner(dealerCardsValue, playerCardsValue)) {
         fail.play()
+        liveBet.innerText = 0
     } else {
         swash.play()
+        liveBet.innerText = 0
+       
     }
 }
 
