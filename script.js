@@ -47,12 +47,16 @@ const numberOfDecksElement = document.querySelector('.decks-played')
 const playerBet = document.querySelector('.bets-played')
 const activeBet = document.querySelector('.active-bets')
 const liveBet = document.querySelector('.the-bet')
+const bettingBtn = document.querySelector('.bet')
+const betMenu = document.querySelector('.bet-menu')
 
+const decks = document.querySelector('.deck')
 const betBtn = document.querySelectorAll('.number')
 const liveBetBtn = document.querySelectorAll('.live-bet')
 
 liveBetBtn.forEach(function(button) {
     button.addEventListener('click', pushBet)
+    
 })
 
 function pushBet(event) {
@@ -60,6 +64,8 @@ function pushBet(event) {
     bet = (parseInt(bet.concat(event.target.value))) / 100
     liveBet.innerText = bet * activeBet.innerText
     activeBet.innerText = activeBet.innerText - liveBet.innerText
+    betMenu.classList.add('disabled')
+    startGameElement.classList.remove("disabled")
 }
 
 betBtn.forEach(function(button) {
@@ -88,6 +94,10 @@ function startScreen(){
     numberOfDecksElement.innerText = 'Decks: 1'
     playerBet.innerText = 'Bets: 0'
     mainScreen.classList.add('home-screen')
+    hit.classList.add("disabled")
+    stand.classList.add("disabled")
+    startGameElement.classList.add("disabled")
+    bettingBtn.classList.add('disabled')
 }
 
 
@@ -96,7 +106,9 @@ document.getElementById('enter-game').addEventListener('click', () => {
     startGame()
     document.getElementById('top').scrollIntoView()
     getDeckLength()
-     
+    // betBtn.classList.add('disabled')
+    // decks.classList.add('disabled')
+    bettingBtn.classList.remove('disabled')
 })
 
 let numberOfDecks = 0
@@ -169,12 +181,14 @@ document.getElementById("hitBtn").addEventListener('click', () => {
             dealerCardsValue -= 10
         }
         getDeckLength()
+        hit.classList.add("disabled")
+        stand.classList.add("disabled")
+        betMenu.classList.remove('disabled')
         theCount += CARD_COUNTING_MAP[dealerCards[0].value]
         dealerHandValue.innerText = dealerCardsValue
         count.innerText = theCount
-        hit.classList.add("disabled")
-        stand.classList.add("disabled")
-        startGameElement.classList.remove("disabled")
+        liveBet.innerText = 0
+
     } 
     return playerHandValue
     
@@ -195,9 +209,10 @@ document.getElementById("standBtn").addEventListener('click', () => {
     getDeckLength()
     checkBust()
     checkGameOver()
-    startGameElement.classList.remove("disabled")
+    
     hit.classList.add("disabled")
     stand.classList.add("disabled")
+    betMenu.classList.remove('disabled')
 
 })
 
@@ -305,10 +320,12 @@ function bustControl() {
     if (playerBust == true) {
         fail.play()
         liveBet.innerText = 0
+        console.log(1)
     } else if(dealerBust == true) {
          money.play()
-         activeBet.innerText += liveBet.innerText * 2
+         activeBet.innerText = parseInt(activeBet.innerText) + (liveBet.innerText * 2)
          liveBet.innerText = 0
+         console.log(2)
 
     } else {
         checkWinner()
@@ -318,15 +335,18 @@ function bustControl() {
 function checkWinner() {
     if (isRoundWinner(playerCardsValue, dealerCardsValue)) {
         money.play()
-        activeBet.innerText += liveBet.innerText * 2
-        liveBet.innerText = 0
+        activeBet.innerText = parseInt(activeBet.innerText) + (liveBet.innerText * 2)
+        console.log(activeBet.innerText)
+        liveBet.innerText = 0   
+        console.log(3)
     } else if (isRoundWinner(dealerCardsValue, playerCardsValue)) {
         fail.play()
         liveBet.innerText = 0
+        console.log(4)
     } else {
         swash.play()
         liveBet.innerText = 0
-       
+        console.log(5)
     }
 }
 
